@@ -110,7 +110,7 @@ int main(int argc, char** argv)
     }
 
     // add watch 
-    wd = inotify_add_watch( ifd, DIR_PATH, IN_MODIFY | IN_CREATE | IN_DELETE );
+    wd = inotify_add_watch( ifd, DIR_PATH, IN_MODIFY | IN_CREATE | IN_DELETE | IN_MOVED_TO);
 
     while(1)
     {
@@ -141,6 +141,10 @@ int main(int argc, char** argv)
                     if (event->mask & IN_CREATE)
                     {
                         printf("Create event. File=%s\n", event->name);
+                    }
+                    if (event->mask & IN_MOVED_TO)
+                    {
+                        printf("Moved event. File=%s\n", event->name);
                     }
                     if (event->mask & IN_DELETE)
                     {
